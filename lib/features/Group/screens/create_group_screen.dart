@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whats_app/common/utils/utils.dart';
 import 'package:whats_app/const/colors.dart';
+import 'package:whats_app/features/Group/screens/contact_list_group.dart';
 
 class CreateGroupScreen extends ConsumerStatefulWidget {
   const CreateGroupScreen({super.key});
@@ -38,6 +39,13 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(
+          Icons.done_rounded,
+          size: 38,
+        ),
+      ),
       backgroundColor: backgroundColor,
       body: Padding(
         padding: const EdgeInsets.only(
@@ -46,7 +54,7 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
           bottom: 6,
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
               height: 20,
@@ -83,13 +91,35 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
               height: 20,
             ),
             TextField(
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w400,
+                fontSize: 22,
+              ),
               controller: _controller,
               decoration: const InputDecoration(
-                hintStyle: TextStyle(color: Colors.blue),
+                hintStyle: TextStyle(
+                  color: Colors.blue,
+                  fontWeight: FontWeight.w400,
+                ),
                 hintText: 'Enter Group Name',
-                border: OutlineInputBorder(),
               ),
             ),
+            const SizedBox(
+              height: 12,
+            ),
+            const Text(
+              'Select Contacts',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 28,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            const ContactScreenGroup(),
           ],
         ),
       ),
