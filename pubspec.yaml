@@ -28,12 +28,12 @@ dependencies:
   cached_video_player: ^2.0.4
   emoji_picker_flutter: ^1.6.3
   swipe_to: ^1.0.5
-
+  agora_uikit: 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^3.0.1
+  flutter_lints: ^2.0.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

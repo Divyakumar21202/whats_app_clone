@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whats_app/common/utils/utils.dart';
+import 'package:whats_app/features/Group/screens/create_group_screen.dart';
 import 'package:whats_app/features/Status/Status_screen/statusScreen.dart';
 import 'package:whats_app/features/Status/Status_screen/status_conformationScreen.dart';
 import 'package:whats_app/features/auth/controller/auth_controller.dart';
@@ -62,17 +63,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           style: TextStyle(
               fontWeight: FontWeight.w400, fontSize: 22, color: Colors.white),
         ),
-        actions: const [
-          Icon(Icons.camera_enhance_rounded),
-          SizedBox(
+        actions: [
+          const Icon(Icons.camera_enhance_rounded),
+          const SizedBox(
             width: 15,
           ),
-          Icon(Icons.search),
-          SizedBox(
+          const Icon(Icons.search),
+          const SizedBox(
             width: 15,
           ),
-          Icon(Icons.menu),
-          SizedBox(
+          PopupMenuButton(itemBuilder: (context) {
+            return [
+              PopupMenuItem(
+                child: const Text('Create Group'),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: ((context) => CreateGroupScreen()),
+                    ),
+                  );
+                },
+              ),
+            ];
+          }),
+          const SizedBox(
             width: 15,
           ),
         ],
