@@ -17,7 +17,6 @@ class ContactScreenGroup extends ConsumerStatefulWidget {
 
 class _ContactScreenGroupState extends ConsumerState<ContactScreenGroup> {
   List<int> selectedContactIndexList = [];
-  bool isSelect = false;
   void onSelect(int index, Contact contact) {
     if (selectedContactIndexList.contains(index)) {
       selectedContactIndexList.remove(index);

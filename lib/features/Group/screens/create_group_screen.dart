@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whats_app/common/utils/utils.dart';
 import 'package:whats_app/const/colors.dart';
+import 'package:whats_app/features/Group/controller/group_controller.dart';
 import 'package:whats_app/features/Group/screens/contact_list_group.dart';
+import 'package:whats_app/features/select_contacts/controller/select_contact_controller.dart';
 
 class CreateGroupScreen extends ConsumerStatefulWidget {
   const CreateGroupScreen({super.key});
@@ -19,6 +21,17 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
   @override
   void initState() {
     super.initState();
+  }
+
+  void createGroup() {
+    if (image != null && _controller.text.trim().toString().isNotEmpty) {
+      ref.read(groupControllerProvider).createGroup(
+            context,
+            _controller.text.trim(),
+            image!,
+            ref.read(contactGroupListProvider),
+          );
+    }
   }
 
   @override
@@ -40,7 +53,9 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
     var size = MediaQuery.sizeOf(context);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          createGroup();
+        },
         child: const Icon(
           Icons.done_rounded,
           size: 38,
