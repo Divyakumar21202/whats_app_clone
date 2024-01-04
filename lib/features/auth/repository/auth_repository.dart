@@ -9,6 +9,7 @@ import 'package:whats_app/common/repository/common_firebase_storage_repository.d
 import 'package:whats_app/common/utils/utils.dart';
 import 'package:whats_app/features/auth/screens/otp_screen.dart';
 import 'package:whats_app/features/auth/screens/user_info_screen.dart';
+import 'package:whats_app/models/group_model.dart';
 import 'package:whats_app/models/user_model.dart';
 
 /// Provider is for provide the required data or class without involving the business logic into it .
@@ -115,7 +116,11 @@ class AuthRepository {
           (event) => UserModel.fromMap(event.data()!),
         );
   }
-
+Stream<GroupModel> groupData(String groupId) {
+    return firestore.collection('group').doc(groupId).snapshots().map(
+          (event) => GroupModel.fromMap(event.data()!),
+        );
+  }
   void setUserState(bool isOnline) async {
     await firestore.collection('users').doc(auth.currentUser!.uid).update(
       {

@@ -1,12 +1,11 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
 
-import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whats_app/common/enums/message_enum.dart';
 import 'package:whats_app/common/providers/message_reply_provider.dart';
 import 'package:whats_app/common/utils/utils.dart';
-import 'package:whats_app/const/colors.dart';
 import 'package:whats_app/features/chats/controllers/chat_controller.dart';
 import 'package:whats_app/features/chats/widgets/message_reply_preview.dart';
 
@@ -15,10 +14,12 @@ class BottomTextField extends ConsumerStatefulWidget {
     super.key,
     required this.size,
     required this.receiverUserId,
+    required this.isGroup,
   });
 
   final Size size;
   final String receiverUserId;
+  final bool isGroup;
 
   @override
   ConsumerState<BottomTextField> createState() => _BottomTextFieldState();
@@ -30,23 +31,42 @@ class _BottomTextFieldState extends ConsumerState<BottomTextField> {
   bool isSend = false;
   void sendTextMessage(bool isReplying) {
     if (isSend && isReplying) {
-      ref.read(chatControllerProvider).sendTextMessage(
-            context,
-            _controller.text.trim(),
-            widget.receiverUserId,
-          );
+      widget.isGroup
+          ? ref.read(chatControllerProvider).sendGroupTextMessage(
+                context: context,
+                text: _controller.text.trim().toString(),
+                groupId: widget.receiverUserId,
+              )
+          : ref.read(chatControllerProvider).sendTextMessage(
+                context,
+                _controller.text.trim(),
+                widget.receiverUserId,
+              );
     } else if (isSend && !isReplying) {
-      ref.read(chatControllerProvider).sendTextMessage(
-            context,
-            _controller.text.trim(),
-            widget.receiverUserId,
-          );
+      widget.isGroup
+          ? ref.read(chatControllerProvider).sendGroupTextMessage(
+                context: context,
+                text: _controller.text.trim().toString(),
+                groupId: widget.receiverUserId,
+              )
+          : ref.read(chatControllerProvider).sendTextMessage(
+                context,
+                _controller.text.trim(),
+                widget.receiverUserId,
+              );
     }
-    setState(() {
-      _controller.text = '';
-      isSend = false;
-      ref.read(messageReplyProvider.notifier).update((state) => null);
-    });
+    if (widget.isGroup) {
+      setState(() {
+        _controller.text = '';
+        isSend = false;
+      });
+    } else {
+      setState(() {
+        _controller.text = '';
+        isSend = false;
+        ref.read(messageReplyProvider.notifier).update((state) => null);
+      });
+    }
   }
 
   void sendFileToFB(MessageEnum messageEnum, File file) {
@@ -126,7 +146,7 @@ class _BottomTextFieldState extends ConsumerState<BottomTextField> {
                           hintStyle: const TextStyle(color: Colors.black),
                           suffixIcon: Padding(
                             padding:
-                            const EdgeInsets.symmetric(horizontal: 20.0),
+                                const EdgeInsets.symmetric(horizontal: 20.0),
                             child: SizedBox(
                               width: 58,
                               child: Row(

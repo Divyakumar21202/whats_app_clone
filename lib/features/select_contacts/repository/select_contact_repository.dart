@@ -45,6 +45,7 @@ class SelectContactRepository {
               builder: (context) => SingleChatScreen(
                 name: userData.name,
                 uid: userData.uid,
+                isGroup: false,
               ),
             ),
           );

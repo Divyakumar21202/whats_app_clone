@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whats_app/features/auth/repository/auth_repository.dart';
+import 'package:whats_app/models/group_model.dart';
 import 'package:whats_app/models/user_model.dart';
 
 final authControllerProvider = Provider((ref) {
@@ -26,6 +27,10 @@ class AuthController {
 
   Stream<UserModel> userData(String userId) {
     return authRepository.userData(userId);
+  }
+  
+  Stream<GroupModel> groupData(String groupId) {
+    return authRepository.groupData(groupId);
   }
 
   void signInWithPhone(BuildContext context, String phoneNumber) {

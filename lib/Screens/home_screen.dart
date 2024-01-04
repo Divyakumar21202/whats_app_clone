@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whats_app/common/utils/utils.dart';
 import 'package:whats_app/features/Group/screens/create_group_screen.dart';
+import 'package:whats_app/features/Group/screens/group_chat_list.dart';
 import 'package:whats_app/features/Status/Status_screen/statusScreen.dart';
 import 'package:whats_app/features/Status/Status_screen/status_conformationScreen.dart';
 import 'package:whats_app/features/auth/controller/auth_controller.dart';
@@ -26,7 +27,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -96,22 +97,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
             Text('Chats'),
             Text('Status'),
             Text('Calls'),
+            Text('Groups'),
           ],
         ),
       ),
       body: TabBarView(
         controller: _tabController,
         children: [
-          Container(
-            color: backgroundColor,
-            child: const ChatScreen(),
-          ),
+          const ChatScreen(),
           Container(
             color: backgroundColor,
             child: const StatusScreen(),
           ),
           const Center(
             child: Text('Calls Screen'),
+          ),
+          const Center(
+            child: GroupChatList(),
           ),
         ],
       ),

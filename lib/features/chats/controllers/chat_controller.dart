@@ -9,6 +9,7 @@ import 'package:whats_app/features/auth/controller/auth_controller.dart';
 
 import 'package:whats_app/features/chats/repository/chat_repository.dart';
 import 'package:whats_app/models/chat_contact.dart';
+import 'package:whats_app/models/group_model.dart';
 import 'package:whats_app/models/message.dart';
 
 final chatControllerProvider = Provider(
@@ -41,6 +42,20 @@ class ChatController {
         );
   }
 
+  void sendGroupTextMessage(
+      {required BuildContext context,
+      required String text,
+      required String groupId}) {
+    ref.read(userDataprovider).whenData((value) {
+      chatRepository.sendGroupTextMessage(
+        context: context,
+        text: text,
+        groupId: groupId,
+        senderUser: value!,
+      );
+    });
+  }
+
   void sendFileMessage(
       {required BuildContext context,
       required MessageEnum messageEnum,
@@ -66,8 +81,16 @@ class ChatController {
     return chatRepository.getChatMessages(OtherUserId);
   }
 
+  Stream<List<Message>> getGroupChatMessages(String groupId) {
+    return chatRepository.getGroupChatMessages(groupId);
+  }
+
   Stream<List<ChatContact>> getChatContactList() {
     return chatRepository.getChatContacts();
+  }
+
+  Stream<List<GroupModel>> getGroupList() {
+    return chatRepository.getGroupList();
   }
 
   void setChatMessageSeen(

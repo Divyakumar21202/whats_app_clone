@@ -31,12 +31,17 @@ class ChatScreen extends ConsumerWidget {
                         builder: (context) => SingleChatScreen(
                           uid: user.contactId,
                           name: user.name,
+                          isGroup: false,
                         ),
                       ),
                     );
                   },
                   child: MyListTileChat(
-                      name: name, message: message, image: image, time: time),
+                    name: name,
+                    message: message,
+                    image: image,
+                    time: time,
+                  ),
                 );
               });
         });

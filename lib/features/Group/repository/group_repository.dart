@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/contact.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,6 +33,8 @@ class GroupRepository {
   void createGroup(BuildContext context, String groupName, File groupPic,
       List<Contact> contacts) async {
     try {
+      
+          var timeSent=DateTime.now();
       List<String> Uuids = [];
       for (int i = 0; i < contacts.length; i++) {
         var userCollection = await firestore
@@ -45,7 +46,7 @@ class GroupRepository {
             )
             .get();
         if (userCollection.docs.isNotEmpty && userCollection.docs[0].exists) {
-          Uuids.add(userCollection.docs[0].data()['uid']);
+          Uuids.add(userCollection.docs[0].data()['uid'] as String);
         }
       }
       ref.read(contactGroupListProvider.notifier).update(
@@ -53,21 +54,23 @@ class GroupRepository {
           );
 
       Navigator.pop(context);
-      String groupId = Uuid().v1();
+
+
+      String groupId = const Uuid().v1();
       String groupPicUrl = await ref
           .watch(commonFirebaseStorageRepositoryProvider)
           .storeToFirebase(
             'groups/$groupId',
             groupPic,
           );
-
       GroupModel groupModel = GroupModel(
         name: groupName,
         groupId: groupId,
         groupPic: groupPicUrl,
-        lastMessage: '',
+        lastMessage: 'Welcome to New Group',
         SenderUserId: auth.currentUser!.uid,
         membersUid: [auth.currentUser!.uid, ...Uuids],
+        timeSent: timeSent,
       );
 
       await firestore.collection('groups').doc(groupId).set(
