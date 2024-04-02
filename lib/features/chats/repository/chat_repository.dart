@@ -69,7 +69,7 @@ class ChatRepository {
       (event) {
         List<GroupModel> groupsList = [];
         for (var document in event.docs) {
-          var SingleGroup = GroupModel.fromMap(document.data());
+          GroupModel SingleGroup = GroupModel.fromMap(document.data());
           if (SingleGroup.membersUid.contains(auth.currentUser!.uid)) {
             groupsList.add(SingleGroup);
           }
@@ -332,7 +332,7 @@ class ChatRepository {
     required UserModel senderUser,
   }) async {
     try {
-      var time = DateTime.now();
+      DateTime time = DateTime.now();
       var messageId = const Uuid().v1();
       final message = Message(
         senderId: senderUser.uid,
@@ -352,7 +352,7 @@ class ChatRepository {
       firestore.collection('groups').doc(groupId).update(
         {
           'lastMessage': text,
-          'timeSent': time,
+          'timeSent': time.millisecondsSinceEpoch,
         },
       );
     } catch (e) {

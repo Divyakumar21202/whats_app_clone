@@ -7,7 +7,6 @@ import 'package:intl/intl.dart';
 
 import 'package:whats_app/common/providers/message_reply_provider.dart';
 import 'package:whats_app/common/widgets/loader.dart';
-import 'package:whats_app/features/auth/controller/auth_controller.dart';
 import 'package:whats_app/features/chats/controllers/chat_controller.dart';
 import 'package:whats_app/features/chats/widgets/message_reply_preview.dart';
 import 'package:whats_app/features/chats/widgets/my_message_card.dart';
@@ -59,11 +58,11 @@ class _ChatListState extends ConsumerState<ChatList> {
             //         widget.otherUserUid,
             //       );
             // }
-            if (singleMessage.senderId != FirebaseAuth.instance.currentUser!.uid) {
+            if (singleMessage.senderId == FirebaseAuth.instance.currentUser!.uid) {
               return MyMessageCard(
                 isSeen: singleMessage.isSeen,
                 message: singleMessage.text,
-                time: DateFormat.Hm().format(singleMessage.timeSent),
+                time: DateFormat.Hm().format(singleMessage.timeSent).toString(),
                 messageEnum: singleMessage.type,
                 onLeftSwipe: () {
                   // ref.watch(messageReplyProvider.notifier).update(
@@ -85,15 +84,15 @@ class _ChatListState extends ConsumerState<ChatList> {
               return OtherPersonMessageCard(
                 messageEnum: singleMessage.type,
                 message: singleMessage.text,
-                time: DateFormat.Hm().format(singleMessage.timeSent),
+                time: DateFormat.Hm().format(singleMessage.timeSent).toString(),
                 onRightSwipe: () {
-                  ref.read(messageReplyProvider.notifier).update((state) {
-                    return MessageReply(
-                      message: singleMessage.text,
-                      isMe: false,
-                      messageEnum: singleMessage.repliedMessageType,
-                    );
-                  });
+                  // ref.read(messageReplyProvider.notifier).update((state) {
+                  //   return MessageReply(
+                  //     message: singleMessage.text,
+                  //     isMe: false,
+                  //     messageEnum: singleMessage.repliedMessageType,
+                  //   );
+                  // });
                 },
                 repliedMessageType: singleMessage.repliedMessageType,
                 repliedText: singleMessage.text,

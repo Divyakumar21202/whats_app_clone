@@ -35,7 +35,7 @@ class GroupModel {
       groupPic: map['groupPic'] as String,
       lastMessage: map['lastMessage'] as String,
       SenderUserId: map['SenderUserId'] as String,
-      timeSent: DateTime.fromMillisecondsSinceEpoch(map['timeSent']),
+      timeSent: DateTime.fromMillisecondsSinceEpoch(map['timeSent'] as int),
       membersUid: List<dynamic>.from(
         (map['membersUid'] as List<dynamic>),
       ),
