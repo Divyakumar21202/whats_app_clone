@@ -1,0 +1,31 @@
+name: whats App Workflow
+on:
+    push:
+        branches:
+            main
+            master
+
+jobs:
+    Build-Apk:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v1
+
+            - name: Flutter Set up
+              uses: subosito/flutter-action@v1
+              with:
+                flutter-version : 3.19
+            - name: Clean Gradle Build
+              run: flutter clean
+            - name: Getting Dependencies
+              run: flutter pub get
+            
+            - name: Building Apk
+              run: flutter build apk --split-per-abi
+            
+            - name: Release Apk
+              uses: ncipollo/release-action@v1
+              with:
+                tag: v.0.${{github.run_number}}
+                token: ${{secrets.WP_CLONE_TOKEN}}
+                
