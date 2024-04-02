@@ -2,8 +2,8 @@ name: whats App Workflow
 on:
     push:
         branches:
-            main
-            master
+            - main
+            - master
 
 jobs:
     Build-Apk:
@@ -28,4 +28,4 @@ jobs:
               with:
                 tag: v.0.${{github.run_number}}
                 token: ${{secrets.WP_CLONE_TOKEN}}
-                
+
