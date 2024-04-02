@@ -4,6 +4,7 @@ on:
         branches:
             main
             master
+            Divyakumar21202-readme-1
 
 jobs:
     Build-Apk:
