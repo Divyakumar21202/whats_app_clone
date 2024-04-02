@@ -2,9 +2,9 @@ name: whats App Workflow
 on:
     push:
         branches:
-            main
-            master
-            Divyakumar21202-readme-1
+          - main
+          - master
+          - Divyakumar21202-readme-1
 
 jobs:
     Build-Apk:
